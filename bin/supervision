@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+use() {
+  {
+    versions | grep $1
+  } > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    rm -f /opt/sitevision
+    ln -s ~/.supervision/versions/$1 /opt/sitevision
+    echo "Now using SiteVision $1."
+  else
+    echo "SiteVision $1 is not installed."
+    exit 1
+  fi
+}
+
+versions() {
+  ls ~/.supervision/versions/ | sort
+}
+
+version() {
+  path=`ls -l /opt/sitevision | awk '{print $11}'`
+  path_sans_trailing_slash=${path%/}
+  echo ${path_sans_trailing_slash##*/}
+}
+
+start() {
+  pushd /opt/sitevision/bin > /dev/null
+  sudo ./sitevision console
+  popd > /dev/null
+}
+
+usage() {
+  {
+    echo "usage: supervision versions"
+    echo "       supervision version"
+  }
+}
+
+case "$1" in
+  "use" )
+    use $2
+    exit 0
+    ;;
+  "versions" )
+    versions
+    exit 0
+    ;;
+  "version" )
+    version
+    exit 0
+    ;;
+  "start" )
+    start
+    exit 0
+    ;;
+esac
+
+usage
+exit 0
