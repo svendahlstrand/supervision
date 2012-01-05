@@ -19,12 +19,14 @@ versions() {
 }
 
 version() {
+  check_for_symlink
   path=`ls -l /opt/sitevision | awk '{print $11}'`
   path_sans_trailing_slash=${path%/}
   echo ${path_sans_trailing_slash##*/}
 }
 
 console() {
+  check_for_symlink
   pushd /opt/sitevision/bin > /dev/null
   sudo ./sitevision console
   popd > /dev/null
@@ -45,6 +47,13 @@ usage() {
 
 bootstrap() {
   mkdir -p ~/.supervision/versions
+}
+
+check_for_symlink() {
+  if !([ -L /opt/sitevision ] && [ -d /opt/sitevision ]); then
+    echo "No SiteVision version is set."
+    exit 1
+  fi
 }
 
 bootstrap
