@@ -43,6 +43,12 @@ usage() {
   }
 }
 
+bootstrap() {
+  mkdir -p ~/.supervision/versions
+}
+
+bootstrap
+
 case "$1" in
   "use" )
     use $2
