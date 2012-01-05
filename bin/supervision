@@ -37,16 +37,14 @@ supervision_version() {
 }
 
 usage() {
-  {
-    supervision_version
-    echo "usage: supervision <command> [<args>]"
-    echo ""
-    echo "What supervision can do for you:"
-    echo "   use           Set the SiteVision version"
-    echo "   version       Show the current SiteVision version"
-    echo "   versions      List all SiteVision versions known to supervision"
-    echo "   console       Start the current SiteVision version in console mode"
-  }
+  supervision_version
+  echo "usage: supervision <command> [<args>]"
+  echo ""
+  echo "What supervision can do for you:"
+  echo "   use           Set the SiteVision version"
+  echo "   version       Show the current SiteVision version"
+  echo "   versions      List all SiteVision versions known to supervision"
+  echo "   console       Start the current SiteVision version in console mode"
 }
 
 bootstrap() {
