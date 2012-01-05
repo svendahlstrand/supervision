@@ -20,7 +20,7 @@ versions() {
 
 version() {
   check_for_symlink
-  readlink /opt/sitevision | sed 's|.*/\(.*\)$|\1|'
+  basename `readlink /opt/sitevision`
 }
 
 console() {
