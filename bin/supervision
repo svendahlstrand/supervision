@@ -54,7 +54,7 @@ bootstrap() {
 }
 
 check_for_symlink() {
-  if !([ -L ${SITEVISION_ROOT} ] && [ -d ${SITEVISION_ROOT} ]); then
+  if ! [ -L ${SITEVISION_ROOT} -a -d ${SITEVISION_ROOT} ]; then
     echo "No SiteVision version is set."
     exit 1
   fi
