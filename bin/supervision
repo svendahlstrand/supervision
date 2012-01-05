@@ -32,29 +32,34 @@ start() {
 
 usage() {
   {
-    echo "usage: supervision versions"
-    echo "       supervision version"
+    echo "supervision alpha"
+    echo "usage: supervision <command> [<args>]"
+    echo ""
+    echo "What supervision can do for you:"
+    echo "   use           Set the SiteVision version"
+    echo "   version       Show the current SiteVision version"
+    echo "   versions      List all SiteVision versions known to supervision"
+    echo "   start         Start the current SiteVision version in console mode"
   }
 }
 
 case "$1" in
   "use" )
     use $2
-    exit 0
     ;;
   "versions" )
     versions
-    exit 0
     ;;
   "version" )
     version
-    exit 0
     ;;
   "start" )
     start
-    exit 0
+    ;;
+  *)
+    usage
+    exit 1
     ;;
 esac
 
-usage
 exit 0
