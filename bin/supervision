@@ -14,13 +14,13 @@ use() {
   fi
 }
 
-versions() {
-  ls ~/.supervision/versions/ | sort
-}
-
 version() {
   check_for_symlink
   basename `readlink /opt/sitevision`
+}
+
+versions() {
+  ls ~/.supervision/versions/ | sort
 }
 
 console() {
