@@ -24,7 +24,7 @@ version() {
   echo ${path_sans_trailing_slash##*/}
 }
 
-start() {
+console() {
   pushd /opt/sitevision/bin > /dev/null
   sudo ./sitevision console
   popd > /dev/null
@@ -39,7 +39,7 @@ usage() {
     echo "   use           Set the SiteVision version"
     echo "   version       Show the current SiteVision version"
     echo "   versions      List all SiteVision versions known to supervision"
-    echo "   start         Start the current SiteVision version in console mode"
+    echo "   console       Start the current SiteVision version in console mode"
   }
 }
 
@@ -53,8 +53,8 @@ case "$1" in
   "version" )
     version
     ;;
-  "start" )
-    start
+  "console" )
+    console
     ;;
   *)
     usage
