@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+SUPERVISION_VERSION="0.1.0"
+
 use() {
   {
     versions | grep $1
@@ -30,9 +32,13 @@ console() {
   popd > /dev/null
 }
 
+supervision_version() {
+  echo "supervision ${SUPERVISION_VERSION}"
+}
+
 usage() {
   {
-    echo "supervision alpha"
+    supervision_version
     echo "usage: supervision <command> [<args>]"
     echo ""
     echo "What supervision can do for you:"
@@ -68,6 +74,9 @@ case "$1" in
     ;;
   "console" )
     console
+    ;;
+  "--version" )
+    supervision_version
     ;;
   *)
     usage
