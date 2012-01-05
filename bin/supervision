@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SUPERVISION_VERSION="0.1.0"
+SUPERVISION_VERSION="0.1.1"
 
 use() {
   versions | grep ^"$1"$ > /dev/null
