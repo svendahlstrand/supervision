@@ -20,9 +20,7 @@ versions() {
 
 version() {
   check_for_symlink
-  path=`ls -l /opt/sitevision | awk '{print $11}'`
-  path_sans_trailing_slash=${path%/}
-  echo ${path_sans_trailing_slash##*/}
+  readlink /opt/sitevision | sed 's|.*/\(.*\)$|\1|'
 }
 
 console() {
