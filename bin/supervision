@@ -7,8 +7,8 @@ use() {
     versions | grep $1
   } > /dev/null 2>&1
   if [ $? -eq 0 ]; then
-    rm -f /opt/sitevision
-    ln -s ~/.supervision/versions/$1 /opt/sitevision
+    rm -f ${SITEVISION_ROOT}
+    ln -s ${SUPERVISION_VERSIONS_ROOT}/$1 ${SITEVISION_ROOT}
     echo "Now using SiteVision $1."
   else
     echo "SiteVision $1 is not installed."
@@ -18,16 +18,16 @@ use() {
 
 version() {
   check_for_symlink
-  basename `readlink /opt/sitevision`
+  basename `readlink ${SITEVISION_ROOT}`
 }
 
 versions() {
-  ls ~/.supervision/versions/ | sort
+  ls "$SUPERVISION_VERSIONS_ROOT" | sort
 }
 
 console() {
   check_for_symlink
-  pushd /opt/sitevision/bin > /dev/null
+  pushd ${SITEVISION_ROOT}/bin > /dev/null
   sudo ./sitevision console
   popd > /dev/null
 }
@@ -50,15 +50,19 @@ usage() {
 }
 
 bootstrap() {
-  mkdir -p ~/.supervision/versions
+  mkdir -p ${SUPERVISION_VERSIONS_ROOT}
 }
 
 check_for_symlink() {
-  if !([ -L /opt/sitevision ] && [ -d /opt/sitevision ]); then
+  if !([ -L ${SITEVISION_ROOT} ] && [ -d ${SITEVISION_ROOT} ]); then
     echo "No SiteVision version is set."
     exit 1
   fi
 }
+
+SUPERVISION_ROOT="${HOME}/.supervision"
+SUPERVISION_VERSIONS_ROOT="${SUPERVISION_ROOT}/versions"
+SITEVISION_ROOT="/opt/sitevision"
 
 bootstrap
 
