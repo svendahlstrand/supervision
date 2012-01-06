@@ -29,6 +29,18 @@ console() {
   popd > /dev/null
 }
 
+install_sitevision() {
+  case "$1" in
+    "2.6.2" )
+      install_sitevision_version "2.6.2" "http://www.sitevision.se/webdav/files/Kundwebb/Installationsfiler/2.6/sitevision-2.6.2_05-697.zip"
+      ;;
+    *)
+      usage
+      exit 1
+      ;;
+  esac
+}
+
 supervision_version() {
   echo "supervision ${SUPERVISION_VERSION}"
 }
@@ -41,11 +53,12 @@ usage() {
   echo "   use           Set the SiteVision version"
   echo "   version       Show the current SiteVision version"
   echo "   versions      List all SiteVision versions known to supervision"
+  echo "   install       Install SiteVision, available version: 2.6.2"
   echo "   console       Start the current SiteVision version in console mode"
 }
 
 bootstrap() {
-  mkdir -p ${SUPERVISION_VERSIONS_ROOT}
+  mkdir -p ${SUPERVISION_VERSIONS_ROOT} ${TEMP_PATH}
 }
 
 check_for_symlink() {
@@ -55,9 +68,53 @@ check_for_symlink() {
   fi
 }
 
+download_is_complete() {
+  unzip -t $1 > /dev/null 2> /dev/null
+  return $?
+}
+
+download_file() {
+  echo "You have to authenticate with your SiteVision Customer Web credentials."
+  echo ""
+  read -p  "  Username: " username
+  read -sp "  Password: " password
+  echo ""
+  echo ""
+
+  curl -f --user "$username:$password" -C - $1 -o $2
+}
+
+install_sitevision_version() {
+  local url=$2
+  local version=$1
+  local versionpath="${SUPERVISION_VERSIONS_ROOT}/${version}"
+  local filepath="${TEMP_PATH}/${version}.zip"
+
+  if [ ! -d ${versionpath} ]; then
+    if ! download_is_complete "$filepath"; then
+      download_file "$url" "$filepath"
+    fi
+
+    if [ $? -eq 0 ]; then
+      unzip "$filepath" -d ${versionpath} &&
+        chmod +x ${versionpath}/bin/*
+
+      if [ $? -eq 0 ]; then
+        echo "Installation complete."
+      else
+        echo "Installation failed."
+        exit 1
+      fi
+    fi
+  else
+    echo "Sitevision ${version} is already installed."
+  fi
+}
+
 SUPERVISION_ROOT="${HOME}/.supervision"
 SUPERVISION_VERSIONS_ROOT="${SUPERVISION_ROOT}/versions"
 SITEVISION_ROOT="/opt/sitevision"
+TEMP_PATH="/tmp/supervision"
 
 bootstrap
 
@@ -73,6 +130,9 @@ case "$1" in
     ;;
   "console" )
     console
+    ;;
+  "install" )
+    install_sitevision $2
     ;;
   "--version" )
     supervision_version
