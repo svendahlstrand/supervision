@@ -3,7 +3,7 @@
 SUPERVISION_VERSION="0.1.1"
 
 use() {
-  versions | grep ^"$1"$ > /dev/null
+  versions | grep ^$1$ > /dev/null
   if [ $? -eq 0 ]; then
     ln -sfn ${SUPERVISION_VERSIONS_ROOT}/$1 ${SITEVISION_ROOT}
     echo "Now using SiteVision $1."
@@ -30,7 +30,7 @@ console() {
 }
 
 install_sitevision() {
-  case "$1" in
+  case $1 in
     "2.6.2" )
       install_sitevision_version "2.6.2" "http://www.sitevision.se/webdav/files/Kundwebb/Installationsfiler/2.6/sitevision-2.6.2_05-697.zip"
       ;;
@@ -91,8 +91,8 @@ install_sitevision_version() {
   local filepath="${TEMP_PATH}/${version}.zip"
 
   if [ ! -d ${versionpath} ]; then
-    if ! download_is_complete "$filepath"; then
-      download_file "$url" "$filepath"
+    if ! download_is_complete $filepath; then
+      download_file $url $filepath
     fi
 
     if [ $? -eq 0 ]; then
@@ -118,7 +118,7 @@ TEMP_PATH="/tmp/supervision"
 
 bootstrap
 
-case "$1" in
+case $1 in
   "use" )
     use $2
     ;;
