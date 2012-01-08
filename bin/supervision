@@ -19,7 +19,7 @@ version() {
 }
 
 versions() {
-  ls "$SUPERVISION_VERSIONS_ROOT" | sort
+  ls $SUPERVISION_VERSIONS_ROOT | sort
 }
 
 console() {
@@ -95,7 +95,7 @@ install_sitevision_version() {
     fi
 
     if [ $? -eq 0 ]; then
-      unzip "$filepath" -d $versionpath &&
+      unzip $filepath -d $versionpath &&
         chmod +x $versionpath/bin/*
 
       if [ $? -eq 0 ]; then
