@@ -70,7 +70,6 @@ check_for_symlink() {
 
 download_is_complete() {
   unzip -t $1 > /dev/null 2> /dev/null
-  return $?
 }
 
 download_file() {
