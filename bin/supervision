@@ -107,7 +107,7 @@ install_sitevision_version() {
       fi
     fi
   else
-    echo "Sitevision ${version} is already installed."
+    echo "Sitevision ${version} seems to be installed."
   fi
 }
 
