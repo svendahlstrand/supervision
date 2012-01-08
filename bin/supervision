@@ -5,7 +5,7 @@ SUPERVISION_VERSION="0.1.1"
 use() {
   versions | grep ^$1$ > /dev/null
   if [ $? -eq 0 ]; then
-    ln -sfn ${SUPERVISION_VERSIONS_ROOT}/$1 ${SITEVISION_ROOT}
+    ln -sfn $SUPERVISION_VERSIONS_ROOT/$1 $SITEVISION_ROOT
     echo "Now using SiteVision $1."
   else
     echo "SiteVision $1 is not installed."
@@ -15,7 +15,7 @@ use() {
 
 version() {
   check_for_symlink
-  basename `readlink ${SITEVISION_ROOT}`
+  basename `readlink $SITEVISION_ROOT`
 }
 
 versions() {
@@ -24,7 +24,7 @@ versions() {
 
 console() {
   check_for_symlink
-  pushd ${SITEVISION_ROOT}/bin > /dev/null
+  pushd $SITEVISION_ROOT/bin > /dev/null
   sudo ./sitevision console
   popd > /dev/null
 }
@@ -42,7 +42,7 @@ install_sitevision() {
 }
 
 supervision_version() {
-  echo "supervision ${SUPERVISION_VERSION}"
+  echo "supervision $SUPERVISION_VERSION"
 }
 
 usage() {
@@ -58,11 +58,11 @@ usage() {
 }
 
 bootstrap() {
-  mkdir -p ${SUPERVISION_VERSIONS_ROOT} ${TEMP_PATH}
+  mkdir -p $SUPERVISION_VERSIONS_ROOT $TEMP_PATH
 }
 
 check_for_symlink() {
-  if ! [ -L ${SITEVISION_ROOT} -a -d ${SITEVISION_ROOT} ]; then
+  if ! [ -L $SITEVISION_ROOT -a -d $SITEVISION_ROOT ]; then
     echo "No SiteVision version is set."
     exit 1
   fi
@@ -86,17 +86,17 @@ download_file() {
 install_sitevision_version() {
   local url=$2
   local version=$1
-  local versionpath="${SUPERVISION_VERSIONS_ROOT}/${version}"
-  local filepath="${TEMP_PATH}/${version}.zip"
+  local versionpath="$SUPERVISION_VERSIONS_ROOT/$version"
+  local filepath="$TEMP_PATH/$version.zip"
 
-  if [ ! -d ${versionpath} ]; then
+  if [ ! -d $versionpath ]; then
     if ! download_is_complete $filepath; then
       download_file $url $filepath
     fi
 
     if [ $? -eq 0 ]; then
-      unzip "$filepath" -d ${versionpath} &&
-        chmod +x ${versionpath}/bin/*
+      unzip "$filepath" -d $versionpath &&
+        chmod +x $versionpath/bin/*
 
       if [ $? -eq 0 ]; then
         echo "Installation complete."
@@ -106,12 +106,12 @@ install_sitevision_version() {
       fi
     fi
   else
-    echo "Sitevision ${version} seems to be installed."
+    echo "Sitevision $version seems to be installed."
   fi
 }
 
-SUPERVISION_ROOT="${HOME}/.supervision"
-SUPERVISION_VERSIONS_ROOT="${SUPERVISION_ROOT}/versions"
+SUPERVISION_ROOT="$HOME/.supervision"
+SUPERVISION_VERSIONS_ROOT="$SUPERVISION_ROOT/versions"
 SITEVISION_ROOT="/opt/sitevision"
 TEMP_PATH="/tmp/supervision"
 
