@@ -17,6 +17,14 @@ What can it do for you?
        console       Start the current SiteVision version in console mode
        undeploy      Undeploy a SiteVision portlet
 
+Prerequisites
+-------------
+
+You need the following installed to be able to run supervision:
+
+* java
+* curl
+* unzip
 
 Installation
 ------------
