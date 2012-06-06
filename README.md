@@ -13,7 +13,7 @@ What can it do for you?
        use           Set the SiteVision version
        version       Show the current SiteVision version
        versions      List all SiteVision versions known to supervision
-       install       Install SiteVision, available version: 2.6.2
+       install       Install SiteVision, available version: 2.6.2_07
        console       Start the current SiteVision version in console mode
        undeploy      Undeploy a SiteVision portlet
 
