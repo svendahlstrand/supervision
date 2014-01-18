@@ -29,37 +29,6 @@ console() {
   popd > /dev/null
 }
 
-undeploy() {
-  if [ $1 == "ROOT" ]; then
-    echo "You shuld not delete the ROOT application."
-    exit 1
-  elif [ -z $1 ]; then
-    usage
-    exit 1
-  fi
-
-  local portlet_files=`find /opt/sitevision/tomcat/conf/Catalina/localhost /opt/sitevision/tomcat/webapps /opt/sitevision/data/temp/work -iname "$1*" -maxdepth 1`
-
-  if [ ${#portlet_files} -ne 0 ]; then
-    echo "The following files will be deleted:"
-    echo ""
-
-    echo "$portlet_files"
-    echo ""
-
-    while true; do
-      read -p "Do you wish to undeploy $1? " yn
-      case $yn in
-        [Yy]* ) echo "$portlet_files" | xargs sudo rm -rf && echo "Undeployed $1!"; break;;
-        [Nn]* ) exit;;
-        * ) echo "Please answer yes or no.";;
-      esac
-    done
-  else
-    echo "No files found for portlet $1."
-  fi
-}
-
 install_sitevision() {
   case $1 in
     "2.6.2_07" )
@@ -86,7 +55,6 @@ usage() {
   echo "   versions      List all SiteVision versions known to supervision"
   echo "   install       Install SiteVision, available version: 2.6.2_07"
   echo "   console       Start the current SiteVision version in console mode"
-  echo "   undeploy      Undeploy a SiteVision portlet"
 }
 
 bootstrap() {
@@ -174,9 +142,6 @@ case $1 in
     ;;
   "console" )
     console
-    ;;
-  "undeploy" )
-    undeploy $2
     ;;
   "--version" )
     supervision_version
