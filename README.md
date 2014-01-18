@@ -1,9 +1,9 @@
 supervision
 ===========
 
-supervision is an awsome tool that assists SiteVision developers with mundande tasks. It's super alpha!
+supervision lets you install and switch between multiple versions of SiteVision.
 
-What can it do for you?
+What can supervision do for you?
 -----------------------
 
     supervision 0.2.0
