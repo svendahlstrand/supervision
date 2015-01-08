@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 SUPERVISION_VERSION="0.2.0"
+DATA_FILE="../data/versions.list"
 
 use() {
   versions | grep ^$1$ > /dev/null
@@ -32,11 +33,42 @@ console() {
 install_sitevision() {
   case $1 in
     "2.6.2_07" )
-      install_sitevision_version "2.6.2_07" "http://www.sitevision.se/webdav/files/Kundwebb/Installationsfiler/2.6/sitevision-2.6.2_07-705.zip"
+
+      #install_sitevision_version "2.6.2_07" "http://www.sitevision.se/webdav/files/Kundwebb/Installationsfiler/2.6/sitevision-2.6.2_07-705.zip"
       ;;
-    *)
-      usage
+
+    "")
+      echo "Possible versions:"
+
+      cat $DATA_FILE | while read line
+      do
+        echo "* $line" | cut -f1
+      done
+
+      echo ""
+      
       exit 1
+      ;;
+
+    * )
+      
+      local dl_ver=""
+      local dl_url=""
+      while read line; do
+        ver=`echo "$line" | cut -f1`
+        url=`echo "$line" | cut -f2`
+
+        if [ $1 = $ver ]; then
+          dl_ver="$ver"
+          dl_url="$url"
+          break
+        fi
+      done < $DATA_FILE
+
+      if [ $dl_ver != "" ]; then
+        install_sitevision_version "$dl_ver" "$dl_url"
+      fi
+
       ;;
   esac
 }
@@ -89,6 +121,9 @@ download_file() {
   read -sp "  Password: " password
   echo ""
   echo ""
+
+  #echo "Username: $username"
+  #echo "Password: $password"
 
   curl -f --user "$username:$password" -C - $1 -o $2
 }
