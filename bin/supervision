@@ -122,9 +122,6 @@ download_file() {
   echo ""
   echo ""
 
-  #echo "Username: $username"
-  #echo "Password: $password"
-
   curl -f --user "$username:$password" -C - $1 -o $2
 }
 
