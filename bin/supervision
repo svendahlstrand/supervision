@@ -156,7 +156,7 @@ install_sitevision_version() {
 
 SUPERVISION_ROOT="$HOME/.supervision"
 SUPERVISION_VERSIONS_ROOT="$SUPERVISION_ROOT/versions"
-SITEVISION_ROOT="/opt/sitevision"
+SITEVISION_ROOT="/$HOME/.supervision/sitevision"
 TEMP_PATH="/tmp/supervision"
 
 bootstrap
