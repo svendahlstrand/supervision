@@ -92,13 +92,13 @@ usage() {
 bootstrap() {
   mkdir -p $SUPERVISION_VERSIONS_ROOT $TEMP_PATH
 
-  hash java curl unzip 2>&- && return
+  hash java curl tar 2>&- && return
   echo "You don't seem to have the necessary prerequisites for running supervision."
   echo ""
   echo "Please make sure you have the following:"
   echo "   * java"
   echo "   * curl"
-  echo "   * unzip"
+  echo "   * tar"
 
   exit 1
 }
@@ -111,7 +111,7 @@ check_for_symlink() {
 }
 
 download_is_complete() {
-  unzip -t $1 > /dev/null 2> /dev/null
+  tar -tzf $1 >/dev/null
 }
 
 download_file() {
@@ -129,15 +129,17 @@ install_sitevision_version() {
   local url=$2
   local version=$1
   local versionpath="$SUPERVISION_VERSIONS_ROOT/$version"
-  local filepath="$TEMP_PATH/$version.zip"
+  local filepath="$TEMP_PATH/$version.tar.gz"
 
   if [ ! -d $versionpath ]; then
     if ! download_is_complete $filepath; then
       download_file $url $filepath
     fi
 
+    mkdir -p $versionpath
+
     if [ $? -eq 0 ]; then
-      unzip $filepath -d $versionpath &&
+      tar zxvf $filepath -C $versionpath &&
         chmod +x $versionpath/bin/*
 
       if [ $? -eq 0 ]; then
