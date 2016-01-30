@@ -22,8 +22,8 @@ Prerequisites
 You need the following installed to be able to run supervision:
 
 * java
-* curl
-* unzip
+* mount_webdav
+* find
 
 Installation
 ------------

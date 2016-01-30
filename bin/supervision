@@ -31,15 +31,8 @@ console() {
 }
 
 install_sitevision() {
-  case $1 in
-    "2.6.2_07" )
-      install_sitevision_version "2.6.2_07" "http://www.sitevision.se/webdav/files/Kundwebb/Installationsfiler/2.6/sitevision-2.6.2_07-705.zip"
-      ;;
-    *)
-      usage
-      exit 1
-      ;;
-  esac
+  mount_updates
+  list_updates
 }
 
 supervision_version() {
@@ -61,13 +54,13 @@ usage() {
 bootstrap() {
   mkdir -p $SUPERVISION_UPDATES_ROOT $SUPERVISION_VERSIONS_ROOT $TEMP_PATH
 
-  hash java curl unzip 2>&- && return
+  hash java mount_webdav find 2>&- && return
   echo "You don't seem to have the necessary prerequisites for running supervision."
   echo ""
   echo "Please make sure you have the following:"
   echo "   * java"
-  echo "   * curl"
-  echo "   * unzip"
+  echo "   * mount_webdav"
+  echo "   * find"
 
   exit 1
 }
@@ -79,10 +72,6 @@ check_for_symlink() {
   fi
 }
 
-download_is_complete() {
-  unzip -t $1 > /dev/null 2> /dev/null
-}
-
 check_for_sudo() {
   if [[ $UID != 0 ]]; then
     echo "Please run this command with sudo:"
@@ -91,48 +80,26 @@ check_for_sudo() {
   fi
 }
 
-download_file() {
-  echo "You have to authenticate with your SiteVision Customer Web credentials."
-  echo ""
-  read -p  "  Username: " username
-  read -sp "  Password: " password
-  echo ""
-  echo ""
+mount_updates() {
+  if [ `find $SUPERVISION_UPDATES_ROOT -prune -empty` ]; then
+    mount_webdav -si $SITEVISION_WEBDAV_URL $SUPERVISION_UPDATES_ROOT
 
-  curl -f --user "$username:$password" -C - $1 -o $2
+    if [ $? -gt 0 ]; then
+      echo "Couldn't access updates. Double check your credentials."
+      exit 1
+    fi
+  fi
 }
 
-install_sitevision_version() {
-  local url=$2
-  local version=$1
-  local versionpath="$SUPERVISION_VERSIONS_ROOT/$version"
-  local filepath="$TEMP_PATH/$version.zip"
-
-  if [ ! -d $versionpath ]; then
-    if ! download_is_complete $filepath; then
-      download_file $url $filepath
-    fi
-
-    if [ $? -eq 0 ]; then
-      unzip $filepath -d $versionpath &&
-        chmod +x $versionpath/bin/*
-
-      if [ $? -eq 0 ]; then
-        echo "Installation complete."
-      else
-        echo "Installation failed."
-        exit 1
-      fi
-    fi
-  else
-    echo "Sitevision $version seems to be installed."
-  fi
+list_updates() {
+  find $SUPERVISION_UPDATES_ROOT -type f -name "*.x64.tar.gz" | xargs basename
 }
 
 SUPERVISION_ROOT="$HOME/.supervision"
 SUPERVISION_UPDATES_ROOT="$SUPERVISION_ROOT/updates"
 SUPERVISION_VERSIONS_ROOT="$SUPERVISION_ROOT/versions"
 SITEVISION_ROOT="/opt/sitevision"
+SITEVISION_WEBDAV_URL="https://www.sitevision.se/webdav/files/Kundwebb/Uppdateringar/"
 TEMP_PATH="/tmp/supervision"
 
 bootstrap
@@ -148,7 +115,7 @@ case $1 in
     version
     ;;
   "install" )
-    install_sitevision $2
+    install_sitevision
     ;;
   "console" )
     console
