@@ -59,7 +59,7 @@ usage() {
 }
 
 bootstrap() {
-  mkdir -p $SUPERVISION_VERSIONS_ROOT $TEMP_PATH
+  mkdir -p $SUPERVISION_UPDATES_ROOT $SUPERVISION_VERSIONS_ROOT $TEMP_PATH
 
   hash java curl unzip 2>&- && return
   echo "You don't seem to have the necessary prerequisites for running supervision."
@@ -130,6 +130,7 @@ install_sitevision_version() {
 }
 
 SUPERVISION_ROOT="$HOME/.supervision"
+SUPERVISION_UPDATES_ROOT="$SUPERVISION_ROOT/updates"
 SUPERVISION_VERSIONS_ROOT="$SUPERVISION_ROOT/versions"
 SITEVISION_ROOT="/opt/sitevision"
 TEMP_PATH="/tmp/supervision"
