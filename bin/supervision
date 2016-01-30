@@ -53,8 +53,8 @@ usage() {
   echo "What supervision can do for you:"
   echo "   use           Set the SiteVision version"
   echo "   version       Show the current SiteVision version"
-  echo "   versions      List all SiteVision versions known to supervision"
-  echo "   install       Install SiteVision, available version: 2.6.2_07"
+  echo "   versions      List all SiteVision available to supervision"
+  echo "   install       Download and install a SiteVision version"
   echo "   console       Start the current SiteVision version in console mode"
 }
 

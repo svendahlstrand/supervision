@@ -12,8 +12,8 @@ What can supervision do for you?
     What supervision can do for you:
        use           Set the SiteVision version
        version       Show the current SiteVision version
-       versions      List all SiteVision versions known to supervision
-       install       Install SiteVision, available version: 2.6.2_07
+       versions      List all SiteVision available to supervision
+       install       Download and install a SiteVision version
        console       Start the current SiteVision version in console mode
 
 Prerequisites
