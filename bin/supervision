@@ -23,9 +23,10 @@ versions() {
 }
 
 console() {
+  check_for_sudo
   check_for_symlink
   pushd $SITEVISION_ROOT/bin > /dev/null
-  sudo ./sitevision console
+  ./sitevision console
   popd > /dev/null
 }
 
@@ -80,6 +81,14 @@ check_for_symlink() {
 
 download_is_complete() {
   unzip -t $1 > /dev/null 2> /dev/null
+}
+
+check_for_sudo() {
+  if [[ $UID != 0 ]]; then
+    echo "Please run this command with sudo:"
+    echo "sudo supervision console"
+    exit 1
+  fi
 }
 
 download_file() {
