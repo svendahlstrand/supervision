@@ -5,7 +5,7 @@ SUPERVISION_VERSION="0.5.0-beta"
 use() {
   versions | grep ^$1$ > /dev/null
   if [ $? -eq 0 ]; then
-    ln -sfn $SUPERVISION_VERSIONS_ROOT/$1 $SITEVISION_ROOT
+    ln -sfn $SUPERVISION_VERSIONS_ROOT/$1 $SITEVISION_LINK
     echo "Now using SiteVision $1."
   else
     echo "SiteVision $1 is not installed."
@@ -15,7 +15,7 @@ use() {
 
 version() {
   check_for_symlink
-  basename `readlink $SITEVISION_ROOT`
+  basename `readlink $SITEVISION_LINK`
 }
 
 versions() {
@@ -25,7 +25,7 @@ versions() {
 console() {
   check_for_sudo
   check_for_symlink
-  pushd $SITEVISION_ROOT/bin > /dev/null
+  pushd $SITEVISION_LINK/bin > /dev/null
   ./sitevision console
   popd > /dev/null
 }
@@ -54,6 +54,14 @@ usage() {
 bootstrap() {
   mkdir -p $SUPERVISION_UPDATES_ROOT $SUPERVISION_VERSIONS_ROOT $TEMP_PATH
 
+  if ! [ -d "$SITEVISION_LINK_ROOT" -a -w "$SITEVISION_LINK_ROOT" ]; then
+    echo -e "\033[1;33mWarning:\033[0m The directory $SITEVISION_LINK_ROOT is not writable."
+    echo ""
+    echo "Make sure it exists and that you are the owner."
+    echo "  sudo chown \$(whoami):admin $SITEVISION_LINK_ROOT"
+    exit 1
+  fi
+
   hash java mount_webdav find 2>&- && return
   echo "You don't seem to have the necessary prerequisites for running supervision."
   echo ""
@@ -66,7 +74,7 @@ bootstrap() {
 }
 
 check_for_symlink() {
-  if ! [ -L $SITEVISION_ROOT -a -d $SITEVISION_ROOT ]; then
+  if ! [ -L $SITEVISION_LINK -a -d $SITEVISION_LINK ]; then
     echo "No SiteVision version is set."
     exit 1
   fi
@@ -98,7 +106,8 @@ list_updates() {
 SUPERVISION_ROOT="$HOME/.supervision"
 SUPERVISION_UPDATES_ROOT="$SUPERVISION_ROOT/updates"
 SUPERVISION_VERSIONS_ROOT="$SUPERVISION_ROOT/versions"
-SITEVISION_ROOT="/opt/sitevision"
+SITEVISION_LINK_ROOT="/opt"
+SITEVISION_LINK="$SITEVISION_LINK_ROOT/sitevision"
 SITEVISION_WEBDAV_URL="https://www.sitevision.se/webdav/files/Kundwebb/Uppdateringar/"
 TEMP_PATH="/tmp/supervision"
 
