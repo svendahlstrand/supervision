@@ -107,7 +107,7 @@ mount_updates() {
 }
 
 list_updates() {
-  find $SUPERVISION_UPDATES_ROOT -type f -name "*.x64.tar.gz" | xargs basename
+  find $SUPERVISION_UPDATES_ROOT -type f -name "*.x64.tar.gz" -exec basename {} +
 }
 
 SUPERVISION_ROOT="$HOME/.supervision"
