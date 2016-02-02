@@ -62,6 +62,13 @@ bootstrap() {
     exit 1
   fi
 
+  if ! [ ! -e "$SITEVISION_LINK" -o -L "$SITEVISION_LINK" ]; then
+    echo -e "\033[1;33mWarning:\033[0m There is a file or directory present at $SITEVISION_LINK."
+    echo ""
+    echo "I want to use that name for my symlinks. :'("
+    exit 1
+  fi
+
   hash java mount_webdav find 2>&- && return
   echo "You don't seem to have the necessary prerequisites for running supervision."
   echo ""
