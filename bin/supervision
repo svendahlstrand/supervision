@@ -15,7 +15,7 @@ use() {
 
 version() {
   check_for_symlink
-  basename `readlink $SITEVISION_LINK`
+  basename "`readlink $SITEVISION_LINK`"
 }
 
 versions() {
@@ -54,7 +54,7 @@ usage() {
 bootstrap() {
   mkdir -p $SUPERVISION_UPDATES_ROOT $SUPERVISION_VERSIONS_ROOT $TEMP_PATH
 
-  if ! [ -d "$SITEVISION_LINK_ROOT" -a -w "$SITEVISION_LINK_ROOT" ]; then
+  if ! [ -d "$SITEVISION_LINK_ROOT" ] && [ -w "$SITEVISION_LINK_ROOT" ]; then
     echo -e "\033[1;33mWarning:\033[0m The directory $SITEVISION_LINK_ROOT is not writable."
     echo ""
     echo "Make sure it exists and that you are the owner."
@@ -62,7 +62,7 @@ bootstrap() {
     exit 1
   fi
 
-  if ! [ ! -e "$SITEVISION_LINK" -o -L "$SITEVISION_LINK" ]; then
+  if ! ([ ! -e "$SITEVISION_LINK" ] || [ -L "$SITEVISION_LINK" ]); then
     echo -e "\033[1;33mWarning:\033[0m There is a file or directory present at $SITEVISION_LINK."
     echo ""
     echo "I want to use that name for my symlinks. :'("
@@ -81,7 +81,7 @@ bootstrap() {
 }
 
 check_for_symlink() {
-  if ! [ -L $SITEVISION_LINK -a -d $SITEVISION_LINK ]; then
+  if ! [ -L $SITEVISION_LINK ] && [ -d $SITEVISION_LINK ]; then
     echo "No SiteVision version is set."
     exit 1
   fi
@@ -96,7 +96,7 @@ check_for_sudo() {
 }
 
 mount_updates() {
-  if [ `find $SUPERVISION_UPDATES_ROOT -prune -empty` ]; then
+  if [ "`find $SUPERVISION_UPDATES_ROOT -prune -empty`" ]; then
     mount_webdav -si $SITEVISION_WEBDAV_URL $SUPERVISION_UPDATES_ROOT
 
     if [ $? -gt 0 ]; then
