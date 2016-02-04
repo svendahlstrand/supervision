@@ -15,7 +15,7 @@ use() {
 
 version() {
   check_for_symlink
-  basename "`readlink $SITEVISION_LINK`"
+  basename "$(readlink $SITEVISION_LINK)"
 }
 
 versions() {
@@ -96,7 +96,7 @@ check_for_sudo() {
 }
 
 mount_updates() {
-  if [ "`find $SUPERVISION_UPDATES_ROOT -prune -empty`" ]; then
+  if [ "$(find $SUPERVISION_UPDATES_ROOT -prune -empty)" ]; then
     mount_webdav -si $SITEVISION_WEBDAV_URL $SUPERVISION_UPDATES_ROOT
 
     if [ $? -gt 0 ]; then
