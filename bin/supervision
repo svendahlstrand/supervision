@@ -3,9 +3,9 @@
 SUPERVISION_VERSION="0.5.0-beta"
 
 use() {
-  versions | grep ^$1$ > /dev/null
+  versions | grep ^"$1"$ > /dev/null
   if [ $? -eq 0 ]; then
-    ln -sfn $SUPERVISION_VERSIONS_ROOT/$1 $SITEVISION_LINK
+    ln -sfn "$SUPERVISION_VERSIONS_ROOT"/"$1" "$SITEVISION_LINK"
     echo "Now using SiteVision $1."
   else
     echo "SiteVision $1 is not installed."
@@ -15,7 +15,7 @@ use() {
 
 version() {
   check_for_symlink
-  basename "$(readlink $SITEVISION_LINK)"
+  basename "$(readlink "$SITEVISION_LINK")"
 }
 
 versions() {
@@ -25,7 +25,7 @@ versions() {
 console() {
   check_for_sudo
   check_for_symlink
-  pushd $SITEVISION_LINK/bin > /dev/null
+  pushd "$SITEVISION_LINK"/bin > /dev/null
   ./sitevision console
   popd > /dev/null
 }
@@ -52,7 +52,7 @@ usage() {
 }
 
 bootstrap() {
-  mkdir -p $SUPERVISION_UPDATES_ROOT $SUPERVISION_VERSIONS_ROOT $TEMP_PATH
+  mkdir -p "$SUPERVISION_UPDATES_ROOT" "$SUPERVISION_VERSIONS_ROOT" "$TEMP_PATH"
 
   if ! [ -d "$SITEVISION_LINK_ROOT" ] && [ -w "$SITEVISION_LINK_ROOT" ]; then
     echo -e "\033[1;33mWarning:\033[0m The directory $SITEVISION_LINK_ROOT is not writable."
@@ -81,7 +81,7 @@ bootstrap() {
 }
 
 check_for_symlink() {
-  if ! [ -L $SITEVISION_LINK ] && [ -d $SITEVISION_LINK ]; then
+  if ! [ -L "$SITEVISION_LINK" ] && [ -d "$SITEVISION_LINK" ]; then
     echo "No SiteVision version is set."
     exit 1
   fi
@@ -96,8 +96,8 @@ check_for_sudo() {
 }
 
 mount_updates() {
-  if [ "$(find $SUPERVISION_UPDATES_ROOT -prune -empty)" ]; then
-    mount_webdav -si $SITEVISION_WEBDAV_URL $SUPERVISION_UPDATES_ROOT
+  if [ "$(find "$SUPERVISION_UPDATES_ROOT" -prune -empty)" ]; then
+    mount_webdav -si "$SITEVISION_WEBDAV_URL" "$SUPERVISION_UPDATES_ROOT"
 
     if [ $? -gt 0 ]; then
       echo "Couldn't access updates. Double check your credentials."
@@ -107,7 +107,7 @@ mount_updates() {
 }
 
 list_updates() {
-  find $SUPERVISION_UPDATES_ROOT -type f -name "*.x64.tar.gz" -exec basename {} +
+  find "$SUPERVISION_UPDATES_ROOT" -type f -name "*.x64.tar.gz" -exec basename {} +
 }
 
 SUPERVISION_ROOT="$HOME/.supervision"
@@ -122,7 +122,7 @@ bootstrap
 
 case $1 in
   "use" )
-    use $2
+    use "$2"
     ;;
   "versions" )
     versions
