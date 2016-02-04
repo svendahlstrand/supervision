@@ -32,7 +32,7 @@ console() {
 
 install_sitevision() {
   mount_updates
-  list_updates
+  ask_download_install
 }
 
 supervision_version() {
@@ -105,8 +105,35 @@ mount_updates() {
   fi
 }
 
-list_updates() {
-  find "$SUPERVISION_UPDATES_ROOT" -type f -name "*.x64.tar.gz" -exec basename {} +
+ask_download_install() {
+  pushd "$SUPERVISION_UPDATES_ROOT" > /dev/null
+
+  options=( $(find . -type f -name "*.x64.tar.gz" -print0 | xargs -0) )
+  PS3="Choose a version: "
+
+  select opt in "${options[@]}" "Quit" ; do
+      if (( REPLY == 1 + ${#options[@]} )) ; then
+          exit 0
+
+      elif (( REPLY > 0 && REPLY <= ${#options[@]} )) ; then
+          break
+
+      else
+          echo "Invalid version, try again."
+      fi
+  done
+
+  echo ""
+  echo "Installing..."
+
+  version=$(basename "$opt" | cut -d"-" -f2)
+
+  mkdir "$SUPERVISION_VERSIONS_ROOT/$version" &&
+  pushd "$SUPERVISION_VERSIONS_ROOT/$version" > /dev/null &&
+  tar -xzvf "$SUPERVISION_UPDATES_ROOT/$opt" &&
+
+  echo "" &&
+  echo "Done!"
 }
 
 SUPERVISION_ROOT="$HOME/.supervision"
