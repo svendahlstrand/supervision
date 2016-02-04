@@ -1,33 +1,51 @@
-supervision
-===========
+# supervision
 
 supervision lets you install and switch between multiple versions of SiteVision.
 
-What can supervision do for you?
------------------------
+## What can supervision do for you?
 
-    supervision 0.2.0
-    usage: supervision <command> [<args>]
+```
+supervision 0.5.0-beta
+usage: supervision <command> [<args>]
 
-    What supervision can do for you:
-       use           Set the SiteVision version
-       version       Show the current SiteVision version
-       versions      List all SiteVision available to supervision
-       install       Download and install a SiteVision version
-       console       Start the current SiteVision version in console mode
+What supervision can do for you:
+   use           Set the SiteVision version
+   version       Show the current SiteVision version
+   versions      List all SiteVision available to supervision
+   install       Download and install a SiteVision version
+   console       Start the current SiteVision version in console mode
+```
 
-Prerequisites
--------------
+## How to install
+
+Just download the file [supervision][1], make it executable and place it somewhere in your path. Like this:
+
+```bash
+$ curl -O https://raw.github.com/svendahlstrand/supervision/master/bin/supervision && chmod +x supervision
+```
+
+### Prerequisites
 
 You need the following installed to be able to run supervision:
 
-* java
 * mount_webdav
 * find
 
-Installation
-------------
+And of course it helps to have a copy and license for SiteVision. ;)
 
-Run the following commands to install the latest supervision in your current working directory.
+## Install a SiteVision version manually
 
-    curl -O https://raw.github.com/svendahlstrand/supervision/master/bin/supervision && chmod +x supervision
+The easiest way to install a new SiteVision version is by running `supervision install`. All versions are located in the directory `~/.supervision/versions`, so it's not hard to install manually. Just download and unpack.
+
+When you `ls` the `versions` directory it should look something like this:
+
+```bash
+$ ls -1 ~/.supervision/versions/
+3.6.7-49
+4.0.1-26
+4.0.2-40
+4.0.3-41
+4.1-beta
+```
+
+[1]:https://raw.githubusercontent.com/svendahlstrand/supervision/master/bin/supervision
