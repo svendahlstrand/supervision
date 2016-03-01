@@ -5,7 +5,7 @@ supervision lets you install and switch between multiple versions of SiteVision.
 ## What can supervision do for you?
 
 ```
-supervision 0.5.0-beta
+supervision 0.5.0
 usage: supervision <command> [<args>]
 
 What supervision can do for you:
