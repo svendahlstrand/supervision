@@ -19,7 +19,7 @@ version() {
 }
 
 versions() {
-  find "$SUPERVISION_VERSIONS_ROOT" -maxdepth 1 -mindepth 1 -type d -exec basename {} +
+  find "$SUPERVISION_VERSIONS_ROOT" -maxdepth 1 -mindepth 1 -type d -exec basename {} \;
 }
 
 console() {
