@@ -72,7 +72,7 @@ bootstrap() {
     exit 1
   fi
 
-  hash $SUPERVISION_DAVMOUNT_CHECK find 2>&- && return
+  hash "$SUPERVISION_DAVMOUNT_CHECK" find 2>&- && return
   echo "You don't seem to have the necessary prerequisites for running supervision."
   echo ""
   echo "Please make sure you have the following:"
