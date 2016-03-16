@@ -69,11 +69,11 @@ bootstrap() {
     exit 1
   fi
 
-  hash mount_webdav find 2>&- && return
+  hash "mount.davfs" find 2>&- && return
   echo "You don't seem to have the necessary prerequisites for running supervision."
   echo ""
   echo "Please make sure you have the following:"
-  echo "   * mount_webdav"
+  echo "   * mount.davfs"
   echo "   * find"
 
   exit 1
@@ -96,7 +96,7 @@ check_for_sudo() {
 
 mount_updates() {
   if [ "$(find "$SUPERVISION_UPDATES_ROOT" -prune -empty)" ]; then
-    mount_webdav -si "$SITEVISION_WEBDAV_URL" "$SUPERVISION_UPDATES_ROOT"
+    mount -t davfs "$SITEVISION_WEBDAV_URL" "$SUPERVISION_UPDATES_ROOT" -o ro
 
     if [ $? -gt 0 ]; then
       echo "Couldn't access updates. Double check your credentials."
