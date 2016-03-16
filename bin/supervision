@@ -83,16 +83,14 @@ bootstrap() {
 }
 
 set_os_commands() {
-  SUPERVISION_PLATFORM=$(uname)
-  case $SUPERVISION_PLATFORM in
+  platform=$(uname)
+  case $platform in
     'Linux')
-      SUPERVISION_PLATFORM='linux'
       SUPERVISION_DAVMOUNT_COMMAND='mount'
       SUPERVISION_DAVMOUNT_OPTIONS='-t davfs'
       SUPERVISION_DAVMOUNT_CHECK='mount.davfs'
       ;;
     'Darwin') 
-      SUPERVISION_PLATFORM='osx'
       SUPERVISION_DAVMOUNT_COMMAND='mount_webdav'
       SUPERVISION_DAVMOUNT_OPTIONS='-si'
       SUPERVISION_DAVMOUNT_CHECK='mount_webdav'
@@ -100,7 +98,6 @@ set_os_commands() {
 
     *) ;;
   esac
-  echo "running $SUPERVISION_PLATFORM"
 }
 
 check_for_symlink() {
