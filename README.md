@@ -5,7 +5,7 @@ supervision lets you install and switch between multiple versions of SiteVision.
 ## What can supervision do for you?
 
 ```
-supervision 0.5.0
+supervision 0.6.0
 usage: supervision <command> [<args>]
 
 What supervision can do for you:
@@ -26,10 +26,7 @@ $ curl -O https://raw.github.com/svendahlstrand/supervision/master/bin/supervis
 
 ### Prerequisites
 
-You need the following installed to be able to run supervision:
-
-* mount_webdav
-* find
+On OS X you should be good to go out of the box. On Linux you may have to install [davfs2][2].
 
 And of course it helps to have a copy and license for SiteVision. ;)
 
@@ -49,3 +46,4 @@ $ ls -1 ~/.supervision/versions/
 ```
 
 [1]:https://raw.githubusercontent.com/svendahlstrand/supervision/master/bin/supervision
+[2]:http://savannah.nongnu.org/projects/davfs2
