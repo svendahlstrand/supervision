@@ -52,6 +52,9 @@ usage() {
 }
 
 bootstrap() {
+  
+  set_os_commands
+
   mkdir -p "$SUPERVISION_UPDATES_ROOT" "$SUPERVISION_VERSIONS_ROOT" "$TEMP_PATH"
 
   if ! ([ -d "$SITEVISION_LINK_ROOT" ] && [ -w "$SITEVISION_LINK_ROOT" ]); then
@@ -69,14 +72,35 @@ bootstrap() {
     exit 1
   fi
 
-  hash "mount.davfs" find 2>&- && return
+  hash $SUPERVISION_DAVMOUNT_CHECK find 2>&- && return
   echo "You don't seem to have the necessary prerequisites for running supervision."
   echo ""
   echo "Please make sure you have the following:"
-  echo "   * mount.davfs"
+  echo "   * $SUPERVISION_DAVMOUNT_CHECK"
   echo "   * find"
 
   exit 1
+}
+
+set_os_commands() {
+  SUPERVISION_PLATFORM=$(uname)
+  case $SUPERVISION_PLATFORM in
+    'Linux')
+      SUPERVISION_PLATFORM='linux'
+      SUPERVISION_DAVMOUNT_COMMAND='mount'
+      SUPERVISION_DAVMOUNT_OPTIONS='-t davfs'
+      SUPERVISION_DAVMOUNT_CHECK='mount.davfs'
+      ;;
+    'Darwin') 
+      SUPERVISION_PLATFORM='osx'
+      SUPERVISION_DAVMOUNT_COMMAND='mount_webdav'
+      SUPERVISION_DAVMOUNT_OPTIONS='-si'
+      SUPERVISION_DAVMOUNT_CHECK='mount_webdav'
+      ;;
+
+    *) ;;
+  esac
+  echo "running $SUPERVISION_PLATFORM"
 }
 
 check_for_symlink() {
@@ -96,7 +120,7 @@ check_for_sudo() {
 
 mount_updates() {
   if [ "$(find "$SUPERVISION_UPDATES_ROOT" -prune -empty)" ]; then
-    mount -t davfs "$SITEVISION_WEBDAV_URL" "$SUPERVISION_UPDATES_ROOT" -o ro
+    $SUPERVISION_DAVMOUNT_COMMAND $SUPERVISION_DAVMOUNT_OPTIONS "$SITEVISION_WEBDAV_URL" "$SUPERVISION_UPDATES_ROOT"
 
     if [ $? -gt 0 ]; then
       echo "Couldn't access updates. Double check your credentials."
