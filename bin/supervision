@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SUPERVISION_VERSION="0.5.0"
+SUPERVISION_VERSION="0.6.0"
 
 use() {
   versions | grep ^"$1"$ > /dev/null
@@ -52,7 +52,7 @@ usage() {
 }
 
 bootstrap() {
-  
+
   set_os_commands
 
   mkdir -p "$SUPERVISION_UPDATES_ROOT" "$SUPERVISION_VERSIONS_ROOT" "$TEMP_PATH"
@@ -90,7 +90,7 @@ set_os_commands() {
       SUPERVISION_DAVMOUNT_OPTIONS='-t davfs'
       SUPERVISION_DAVMOUNT_CHECK='mount.davfs'
       ;;
-    'Darwin') 
+    'Darwin')
       SUPERVISION_DAVMOUNT_COMMAND='mount_webdav'
       SUPERVISION_DAVMOUNT_OPTIONS='-si'
       SUPERVISION_DAVMOUNT_CHECK='mount_webdav'
