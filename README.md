@@ -26,7 +26,7 @@ $ curl -O https://raw.github.com/svendahlstrand/supervision/master/bin/supervis
 
 ### Prerequisites
 
-On OS X you should be good to go out of the box. On Linux you may have to install [davfs2][2].
+On macOS you should be good to go out of the box. On Linux you may have to install [davfs2][2].
 
 And of course it helps to have a copy and license for SiteVision. ;)
 
