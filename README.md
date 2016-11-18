@@ -16,7 +16,15 @@ What supervision can do for you:
    console       Start the current SiteVision version in console mode
 ```
 
-## How to install
+## Install using Homebrew
+
+On macOS with the `brew` command it's easy:
+
+```
+$ brew install svendahlstrand/tap/supervision
+```
+
+## Install the "hard" way
 
 Just download the file [supervision][1], make it executable and place it somewhere in your path. Like this:
 
@@ -26,7 +34,7 @@ $ curl -O https://raw.github.com/svendahlstrand/supervision/master/bin/supervis
 
 ### Prerequisites
 
-On macOS you should be good to go out of the box. On Linux you may have to install [davfs2][2].
+On Linux you may have to install [davfs2][2].
 
 And of course it helps to have a copy and license for SiteVision. ;)
 
